@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- head -->
 <?php
-  include "inc/head.inc.php";
+include "inc/head.inc.php";
 ?>
 
 <body>
-    <?php
-        include "inc/nav.inc.php";
-    ?>
-    
-    <div class="container mt-4">
-        <h1>Welcome to the Card App!</h1>
-        <p>This is a simple web application that allows you to manage your card collection.</p>
-        <p>Use the navigation bar above to explore the different features of the app.</p>
-    </div>
+    <main>
+        <header>hello world!</header>
+    </main>
+
 </body>
+
+</html>
