@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.php">
+            <img src="images/logo.webp" alt="Placeholder" title="Placeholder Logo"
+                style="width: 80px; height: 60px" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="shop.php">Point Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tasks.php">Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.php">About Us</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-success" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="register.php" class="nav-link">
+                        <img src="images/register_icon.png" alt="Register" title="Register" class="nav-icon" />
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.php" class="nav-link">
+                        <img src="images/login_icon.png" alt="Login" title="Login" class="nav-icon" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
