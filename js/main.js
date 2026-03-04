@@ -23,8 +23,25 @@ window.addEventListener('load', () => {
 });
 
 // index
-function indexFlip(indexCard) {
-    indexCard.classList.add('flipped');
-    
+function indexFlip(card) {
+    if (!card.classList.contains('flipped')) {
+        card.classList.add('flipped');
+        allFlipped();
+    }
 }
 
+function allFlipped() {
+    const allCards = document.querySelectorAll('.index-card');
+    const flippedCards = document.querySelectorAll('.index-card.flipped');
+    
+    if (flippedCards.length === allCards.length) {
+        const section = document.getElementById('index-gacha');
+        const prompt = document.getElementById('index-register');
+        
+        section.classList.add('index-shift');
+        prompt.classList.remove('d-none');
+        setTimeout(() => {
+            prompt.classList.add('index-show');
+        }, 50);
+    }
+}

@@ -13,6 +13,11 @@ include "inc/head.inc.php";
     include "inc/loader.inc.php";
     ?>
 
+    <!-- nav -->
+    <?php
+    include "inc/nav.inc.php";
+    ?>
+
     <main>
 
         <!-- cards -->
@@ -54,14 +59,20 @@ include "inc/head.inc.php";
                             <div class="index-card-back bg-info"></div>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- register -->
+                <div id="index-register" class="text-center mt-4 d-none opacity-0">
+                    <p class="text-white mb-3">Love your deck?</p>
+                    <a href="register.php">
+                        <button class="btn btn-outline-light btn-lg">Register to Save</button>
+                    </a>
+                </div>
+
             </div>
+
         </section>
     </main>
-
-
-
 </body>
 
 </html>
