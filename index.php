@@ -15,40 +15,40 @@ include "inc/head.inc.php";
 
     <main>
 
-    <!-- cards -->
+        <!-- cards -->
         <section id="index-gacha" class="d-flex align-items-center justify-content-center min-vh-100">
             <div class="container">
                 <div class="row justify-content-center gap-3">
 
-                    <div class="index-card"  >
+                    <div class="index-card" onclick="indexFlip(this)">
                         <div class="index-card-inner">
                             <div class="index-card-front"></div>
                             <div class="index-card-back bg-primary"></div>
                         </div>
                     </div>
 
-                    <div class="index-card"  >
+                    <div class="index-card" onclick="indexFlip(this)">
                         <div class="index-card-inner">
                             <div class="index-card-front"></div>
                             <div class="index-card-back bg-danger"></div>
                         </div>
                     </div>
 
-                    <div class="index-card"  >
+                    <div class="index-card" onclick="indexFlip(this)">
                         <div class="index-card-inner">
                             <div class="index-card-front"></div>
                             <div class="index-card-back bg-success"></div>
                         </div>
                     </div>
 
-                    <div class="index-card"  >
+                    <div class="index-card" onclick="indexFlip(this)">
                         <div class="index-card-inner">
                             <div class="index-card-front"></div>
                             <div class="index-card-back bg-warning"></div>
                         </div>
                     </div>
 
-                    <div class="index-card"  >
+                    <div class="index-card" onclick="indexFlip(this)">
                         <div class="index-card-inner">
                             <div class="index-card-front"></div>
                             <div class="index-card-back bg-info"></div>

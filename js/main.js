@@ -22,3 +22,9 @@ window.addEventListener('load', () => {
     }, 500); 
 });
 
+// index
+function indexFlip(indexCard) {
+    indexCard.classList.add('flipped');
+    
+}
+
