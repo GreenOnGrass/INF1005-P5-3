@@ -1,0 +1,222 @@
+/*  universal */
+body,
+html {
+  height: 100%;
+  overflow-y: hidden;
+}
+
+body {
+  background: linear-gradient(#240b42, #131313);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* loader */
+#loader {
+  z-index: 9999;
+  position: fixed;
+
+  width: 100%;
+  height: 100%;
+
+  top: 0;
+  left: 0;
+
+  background: black;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-stack {
+  position: relative;
+
+  width: 100px;
+  height: 140px;
+}
+
+.loader-card {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
+  animation: shuffle 2s infinite;
+  backface-visibility: hidden;
+}
+
+/* animation */
+.loader-card:nth-child(1) {
+  background: white;
+  animation-delay: 0s;
+}
+
+.loader-card:nth-child(2) {
+  background: white;
+  animation-delay: 0.5s;
+}
+
+.loader-card:nth-child(3) {
+  background: white;
+  animation-delay: 1s;
+}
+
+@keyframes shuffle {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+    z-index: 5;
+    opacity: 1;
+  }
+
+  25% {
+    transform: translate(120%, 10px);
+    z-index: 5;
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(0, 0);
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  75% {
+    transform: translate(-20%, -5px);
+    z-index: 1;
+    opacity: 0.6;
+  }
+}
+
+/* index */
+.index-card {
+  width: 225px;
+  height: 315px;
+  perspective: 1000px;
+  background-color: transparent;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-50px); 
+  transition: transform 0.3s ease, opacity 0.5s ease;
+}
+
+.index-card-front {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  backface-visibility: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.index-card-front {
+  background-color: #2c3e50;
+  color: white;
+  font-size: 2rem;
+}
+
+.index-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.index-card.flipped .index-card-inner {
+  transform: rotateY(180deg);
+}
+
+.index-card-front,
+.index-card-back {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  backface-visibility: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.index-card-back {
+  transform: rotateY(180deg);
+}
+
+/* pseudo-classes */
+.index-card:hover .index-card-inner {
+  transform: translateY(-15px);
+}
+
+.index-card.flipped:hover .index-card-inner {
+    transform: rotateY(180deg) translateY(-15px);
+}
+
+/* animation */
+.slide {
+  animation: indexSlide 0.6s ease forwards;
+  animation-delay: calc(var(--order) * 0.15s);
+}
+
+@keyframes indexSlide {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* register */
+#index-gacha {
+    flex-direction: column;
+}
+
+#index-gacha .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#index-register {
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(10px); 
+    z-index: 10;
+    pointer-events: none; 
+}
+
+.index-shift .row {
+    transform: translateY(-50px); 
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#index-register.index-show {
+    display: block !important;
+    opacity: 1 !important;
+    transform: translateY(-10px); 
+    pointer-events: auto; 
+    visibility: visible;
+}
+
+.index-shift .container {
+    transform: translateY(-20px);
+    transition: transform 0.6s ease;
+}
