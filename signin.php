@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include "inc/account-header.inc.php";
+include "inc/account-head.inc.php";
 ?>
 
 <body class="text-center">
