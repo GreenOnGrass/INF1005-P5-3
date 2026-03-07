@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
-            <img src="images/logo.webp" alt="Placeholder" title="Placeholder Logo"
-                style="width: 80px; height: 60px" />
+            <img src="images/mintmint_logo.png" alt="MintMint Logo" title="MintMint Logo"
+                style="width: 200px; height: 100px" />
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

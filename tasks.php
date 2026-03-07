@@ -30,11 +30,20 @@
                     </div>
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
-                            <h5 class="mb-1">Share on social media</h5>
-                            <p class="mb-1">Share our website on your social media.</p>
+                            <h5 class="mb-1">Share on Twitter</h5>
+                            <p class="mb-1">Spread the word about MintMint!</p>
+                            <a href="https://twitter.com/intent/tweet?text=Check%20out%20MintMint%20Gacha!"
+                                target="_blank"
+                                class="btn btn-sm btn-outline-primary mb-2"
+                                onclick="markAsShared()">
+                                Click to Share
+                            </a>
+                            <br>
                             <small class="text-muted">+20 points</small>
                         </div>
-                        <button class="btn btn-success">Complete</button>
+                        <button id="btn-share-claim" class="btn btn-success" disabled onclick="claimTask('share_social')">
+                            Complete
+                        </button>
                     </div>
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
