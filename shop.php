@@ -24,33 +24,23 @@ include "inc/head.inc.php";
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-                        <form class="d-flex flex-column flex-lg-row align-items-center gap-3">
-                            <input type="text" class="form-control" placeholder="Search for card name..." aria-label="Card name">
+                        <form class="d-flex flex-column flex-lg-row align-items-center gap-3" method="get">
+                            <input type="text" name="search" class="form-control" placeholder="Search for card name..." aria-label="Card name" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                             <div class="d-flex flex-column flex-lg-row gap-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="quality" id="common" value="common" checked>
-                                    <label class="form-check-label" for="common">
-                                        Common
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="quality" id="rare" value="rare">
-                                    <label class="form-check-label" for="rare">
-                                        Rare
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="quality" id="epic" value="epic">
-                                    <label class="form-check-label" for="epic">
-                                        Epic
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="quality" id="legendary" value="legendary">
-                                    <label class="form-check-label" for="legendary">
-                                        Legendary
-                                    </label>
-                                </div>
+                                <?php
+                                $qualities = ['common', 'rare', 'epic', 'legendary'];
+                                $selected_qualities = isset($_GET['quality']) ? $_GET['quality'] : $qualities;
+                                foreach ($qualities as $q) {
+                                    $checked = in_array($q, $selected_qualities) ? 'checked' : '';
+                                    $label = ucfirst($q);
+                                    echo "<div class='form-check'>
+                                        <input class='form-check-input' type='checkbox' name='quality[]' id='$q' value='$q' $checked>
+                                        <label class='form-check-label' for='$q'>
+                                            $label
+                                        </label>
+                                    </div>";
+                                }
+                                ?>
                             </div>
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>
@@ -76,7 +66,37 @@ include "inc/head.inc.php";
                     ['id' => 7, 'name' => 'legendary card 1', 'quality' => 'Legendary', 'image' => 'images/logo.webp'],
                     ['id' => 8, 'name' => 'legendary card 2', 'quality' => 'Legendary', 'image' => 'images/logo.webp']
                 ];
-                foreach($card as $c) { ?>
+
+                // Backend function to filter cards
+                function filter_cards($cards, $search_term, $quality_filters) {
+                    $filtered = $cards;
+                    
+                    // Filter by search term (card name)
+                    if (!empty($search_term)) {
+                        $filtered = array_filter($filtered, function($c) use ($search_term) {
+                            return stripos($c['name'], $search_term) !== false;
+                        });
+                    }
+                    
+                    // Filter by qualities
+                    if (!empty($quality_filters)) {
+                        $filtered = array_filter($filtered, function($c) use ($quality_filters) {
+                            return in_array(strtolower($c['quality']), array_map('strtolower', $quality_filters));
+                        });
+                    }
+                    
+                    return $filtered;
+                }
+
+                // Get search parameters
+                $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
+                $qualities = ['common', 'rare', 'epic', 'legendary'];
+                $quality_filters = isset($_GET['quality']) ? $_GET['quality'] : $qualities;
+
+                // Filter the cards
+                $filtered_cards = filter_cards($card, $search_term, $quality_filters);
+                
+                foreach($filtered_cards as $c) { ?>
                     <div class="col-md-4">
                         <div class="card bg-dark text-light h-100">
                             <img src="<?php echo $c["image"]; ?>" class="card-img-top" alt="Card Image" style="height: 200px; object-fit: contain;">
@@ -85,9 +105,9 @@ include "inc/head.inc.php";
                                 <p class="card-text">Quality: <?php echo $c["quality"]; ?></p>
                                 <div class="mt-auto d-flex align-items-center justify-content-between">
                                     <div class="d-flex align-items-center">
-                                        <button class="btn btn-outline-light btn-sm" onclick="decrement(3)">-</button>
-                                        <span id="quantity3" class="mx-2 text-light">1</span>
-                                        <button class="btn btn-outline-light btn-sm" onclick="increment(3)">+</button>
+                                        <button class="btn btn-outline-light btn-sm" onclick="decrement(<?php echo $c['id']; ?>)">-</button>
+                                        <span id="quantity<?php echo $c['id']; ?>" class="mx-2 text-light">1</span>
+                                        <button class="btn btn-outline-light btn-sm" onclick="increment(<?php echo $c['id']; ?>)">+</button>
                                     </div>
                                     <button class="btn btn-success">Buy</button>
                                 </div>
