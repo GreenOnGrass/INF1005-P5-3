@@ -6,9 +6,8 @@ html {
 }
 
 body {
-  background: linear-gradient(#240b42, #131313);
+  background: linear-gradient(#240b42, #131313) no-repeat fixed;
   background-size: cover;
-  background-repeat: no-repeat;
 }
 
 /* loader */
