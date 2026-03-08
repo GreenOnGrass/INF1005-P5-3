@@ -1,9 +1,46 @@
+<!-- tcg -->
+<?php
+session_start();
+
+// adjust based on your directory
+require_once '../PHP/vendor/autoload.php';
+
+// suppress deprecated warnings
+error_reporting(E_ALL & ~E_DEPRECATED);
+
+use TCGdex\TCGdex;
+
+$tcgdex = new TCGdex("en");
+
+if (!isset($_SESSION['indexDisplay'])) {
+    $indexCards = $tcgdex->card->list();
+    $indexRandom = array_rand($indexCards, 5);
+    $indexDisplay = [];
+
+    foreach ($indexRandom as $key) {
+        $cardData = $tcgdex->card->get($indexCards[$key]->id);
+        $indexDisplay[] = [
+            'id' => $cardData->id,
+            'image' => $cardData->image,
+            'name' => $cardData->name,
+            'flipped' => false
+        ];
+    }
+    $_SESSION['indexDisplay'] = $indexDisplay;
+}
+
+$indexDisplay = $_SESSION['indexDisplay'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <!-- head -->
 <?php
+
+$style = "index.css";
 include "inc/head.inc.php";
+
 ?>
 
 <body class="text-light">
@@ -25,46 +62,25 @@ include "inc/head.inc.php";
             <div class="container">
                 <div class="row justify-content-center gap-3">
 
-                    <div class="index-card" onclick="indexFlip(this)">
-                        <div class="index-card-inner">
-                            <div class="index-card-front"></div>
-                            <div class="index-card-back bg-primary"></div>
+                    <?php foreach ($indexDisplay as $index => $card): ?>
+                        <div class="index-card <?php echo $card['flipped'] ? 'flipped' : ''; ?>"
+                            onclick="indexFlip(this, <?php echo $index; ?>)">
+                            <div class="index-card-inner">
+                                <div class="index-card-front">
+                                    <img src="assets/img/pokemon-card-back.png" alt="" class="img-fluid">
+                                </div>
+                                <div class="index-card-back">
+                                    <img src="<?php echo $card['image'] . '/high.png'; ?>" alt="<?php echo $card['name']; ?>" class="img-fluid" style="border-radius: 12px;">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="index-card" onclick="indexFlip(this)">
-                        <div class="index-card-inner">
-                            <div class="index-card-front"></div>
-                            <div class="index-card-back bg-danger"></div>
-                        </div>
-                    </div>
-
-                    <div class="index-card" onclick="indexFlip(this)">
-                        <div class="index-card-inner">
-                            <div class="index-card-front"></div>
-                            <div class="index-card-back bg-success"></div>
-                        </div>
-                    </div>
-
-                    <div class="index-card" onclick="indexFlip(this)">
-                        <div class="index-card-inner">
-                            <div class="index-card-front"></div>
-                            <div class="index-card-back bg-warning"></div>
-                        </div>
-                    </div>
-
-                    <div class="index-card" onclick="indexFlip(this)">
-                        <div class="index-card-inner">
-                            <div class="index-card-front"></div>
-                            <div class="index-card-back bg-info"></div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <!-- register -->
                 <div id="index-register" class="text-center mt-4 d-none opacity-0">
                     <p class="text-white mb-3">Love your deck?</p>
-                    <a href="register.php">
+                    <a href="signup.php">
                         <button class="btn btn-outline-light btn-lg">Register to Save</button>
                     </a>
                 </div>
