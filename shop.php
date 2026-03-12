@@ -4,7 +4,7 @@
 <!-- head -->
 <?php
 include "inc/head.inc.php";
-require_once 'C:/Users/kenneth/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 use TCGdex\TCGdex;
 use TCGdex\Query;
 
