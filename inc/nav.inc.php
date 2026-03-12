@@ -29,13 +29,19 @@
             </form>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="register.php" class="nav-link">
+                    <a href="signup.php" class="nav-link">
                         <img src="images/register_icon.png" alt="Register" title="Register" class="nav-icon" />
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="login.php" class="nav-link">
+                    <a href="signin.php" class="nav-link">
                         <img src="images/login_icon.png" alt="Login" title="Login" class="nav-icon" />
+                    </a>
+                </li>
+                <!--ONLY FOR TESTING ACCOUNT-->
+                <li class="nav-item">
+                    <a href="account.php" class="nav-link">
+                        <img src="images/register_icon.png" alt="Account" title="Account" class="nav-icon" />
                     </a>
                 </li>
             </ul>
