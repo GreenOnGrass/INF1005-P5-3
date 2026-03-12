@@ -30,30 +30,30 @@ body {
   margin: 0 auto;
 }
 
-.form-signin label {
+.form-signin label, .form-signup label {
     width: 100%;
     font-size: small;
     text-align: left;
 }
-.form-signin .checkbox {
+.form-signin .checkbox, .form-signup .checkbox {
   font-weight: 400;
 }
-.form-signin .form-control {
+.form-signin .form-control, .form-signup .form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;
   padding: 10px;
   font-size: 16px;
 }
-.form-signin .form-control:focus {
+.form-signin .form-control:focus, .form-signup .form-control:focus {
   z-index: 2;
 }
-.form-signin input[type="email"] {
+.form-signin input[type="email"], .form-signup input[type="email"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.form-signin input[type="password"] {
+.form-signin input[type="password"], .form-signup input[type="password"], .form-signup input[type="text"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -64,4 +64,11 @@ body {
   width: 100%;
   background-color: #6b28bd;
   font-size: medium;
+}
+
+.register_bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('../images/register_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
