@@ -4,7 +4,8 @@
 <!-- head -->
 <?php
 include "inc/head.inc.php";
-require_once 'c:\Users\kenneth\vendor\autoload.php';
+// adjust based on your directory
+require_once __DIR__ . '/vendor/autoload.php';
 use TCGdex\TCGdex;
 use TCGdex\Query;
 
@@ -123,35 +124,51 @@ $tcgdex = new TCGdex("en");
                         echo "<p class='text-center mt-5'>No cards found matching your criteria.</p>";
                     }
 
-                    foreach ($filtered_cards as $c) { 
+                    foreach ($filtered_cards as $c) {
                         $quality_color = '';
                         switch (strtolower($c['quality'])) {
-                            case 'common': $quality_color = '#b0bec5'; break; // Gray
-                            case 'rare': $quality_color = '#29b6f6'; break; // Blue
-                            case 'epic': $quality_color = '#ab47bc'; break; // Purple
-                            case 'legendary': $quality_color = '#ffca28'; break; // Gold
+                            case 'common':
+                                $quality_color = '#b0bec5';
+                                break; // Gray
+                            case 'rare':
+                                $quality_color = '#29b6f6';
+                                break; // Blue
+                            case 'epic':
+                                $quality_color = '#ab47bc';
+                                break; // Purple
+                            case 'legendary':
+                                $quality_color = '#ffca28';
+                                break; // Gold
                         }
-                    ?>
+                        ?>
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card bg-dark text-light h-100 position-relative" style="border: 2px solid <?php echo $quality_color; ?>; box-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 15px <?php echo $quality_color; ?>60; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.7), 0 0 25px <?php echo $quality_color; ?>90';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.5), 0 0 15px <?php echo $quality_color; ?>60';">
+                            <div class="card bg-dark text-light h-100 position-relative"
+                                style="border: 2px solid <?php echo $quality_color; ?>; box-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 15px <?php echo $quality_color; ?>60; transition: transform 0.2s, box-shadow 0.2s;"
+                                onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.7), 0 0 25px <?php echo $quality_color; ?>90';"
+                                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.5), 0 0 15px <?php echo $quality_color; ?>60';">
                                 <img src="<?php echo $c["image"]; ?>" class="card-img-top w-100" alt="Card Image">
                                 <div class="card-body d-flex flex-column text-center p-3">
                                     <h5 class="card-title fw-bold mb-2"><?php echo $c["name"]; ?></h5>
                                     <div class="mb-2">
-                                        <span class="badge rounded-pill" style="background-color: <?php echo $quality_color; ?>; color: #111; font-weight: 800; letter-spacing: 1px; padding: 0.5em 1em; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                                        <span class="badge rounded-pill"
+                                            style="background-color: <?php echo $quality_color; ?>; color: #111; font-weight: 800; letter-spacing: 1px; padding: 0.5em 1em; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
                                             <?php echo strtoupper($c["quality"]); ?>
                                         </span>
                                     </div>
-                                    <p class="card-text text-warning fw-bold fs-5 mb-3">$<?php echo number_format($c["cost"], 2); ?></p>
-                                    <div class="mt-auto d-flex align-items-center justify-content-between pt-3 border-top border-secondary">
+                                    <p class="card-text text-warning fw-bold fs-5 mb-3">
+                                        $<?php echo number_format($c["cost"], 2); ?></p>
+                                    <div
+                                        class="mt-auto d-flex align-items-center justify-content-between pt-3 border-top border-secondary">
                                         <div class="d-flex align-items-center bg-secondary rounded px-1">
                                             <button class="btn btn-sm text-light fw-bold px-2 py-1"
                                                 onclick="decrement('<?php echo $c['id']; ?>')">-</button>
-                                            <span id="quantity-<?php echo $c['id']; ?>" class="mx-2 text-light fw-bold">1</span>
+                                            <span id="quantity-<?php echo $c['id']; ?>"
+                                                class="mx-2 text-light fw-bold">1</span>
                                             <button class="btn btn-sm text-light fw-bold px-2 py-1"
                                                 onclick="increment('<?php echo $c['id']; ?>')">+</button>
                                         </div>
-                                        <button class="btn btn-success fw-bold px-3 py-1">Buy</button>
+                                        <button class="btn btn-success fw-bold px-3 py-1"
+                                            onclick="buyCard('<?php echo $c['id']; ?>', this)">Buy</button>
                                     </div>
                                 </div>
                             </div>
@@ -194,6 +211,48 @@ $tcgdex = new TCGdex("en");
             if (isNaN(qty)) qty = 1;
             qty = Math.max(1, qty - 1);
             qElem.textContent = qty;
+        }
+
+        function buyCard(cardId, btn) {
+            const qElem = document.getElementById('quantity-' + cardId);
+            let qty = 1;
+            if (qElem) {
+                qty = parseInt(qElem.textContent, 10);
+                if (isNaN(qty) || qty < 1) qty = 1;
+            }
+
+            // Optional: Provide immediate feedback
+            const originalText = btn.textContent;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+            btn.disabled = true;
+
+            fetch('process_buy.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    card_id: cardId,
+                    quantity: qty
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+
+                    if (data.success) {
+                        alert(data.message + '\nNew Points Balance: ' + data.new_points);
+                    } else {
+                        alert('Purchase Failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    alert('An error occurred during purchase.');
+                    console.error(error);
+                });
         }
     </script>
 
