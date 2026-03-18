@@ -1,3 +1,7 @@
+<?php
+$isIn = isset($_SESSION['user_id']);
+?>
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
@@ -13,12 +17,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="shop.php">Point Shop</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="tasks.php">Tasks</a>
-                </li>
+
+                <?php if ($isIn): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.php">Point Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tasks.php">Tasks</a>
+                    </li>
+                <?php endif; ?>
+
                 <li class="nav-item">
                     <a class="nav-link" href="about.php">About Us</a>
                 </li>
@@ -30,18 +38,12 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="signup.php" class="nav-link">
-                        <img src="images/register_icon.png" alt="Register" title="Register" class="nav-icon" />
+                        <img src="images/register_icon.png" alt="Sign Up" title="Sign Up" class="nav-icon" />
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="signin.php" class="nav-link">
-                        <img src="images/login_icon.png" alt="Login" title="Login" class="nav-icon" />
-                    </a>
-                </li>
-                <!--ONLY FOR TESTING ACCOUNT-->
-                <li class="nav-item">
-                    <a href="account.php" class="nav-link">
-                        <img src="images/register_icon.png" alt="Account" title="Account" class="nav-icon" />
+                    <a href="<?php echo $isIn ? 'account.php' : 'signin.php'; ?>" class="nav-link">
+                        <img src="images/login_icon.png" alt="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" title="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" class="nav-icon" />
                     </a>
                 </li>
             </ul>
