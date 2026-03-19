@@ -5,8 +5,121 @@ html {
 }
 
 body {
-  background: linear-gradient(#240b42, #131313) no-repeat fixed;
+  /* background: linear-gradient(#240b42, #131313) no-repeat fixed; */
+  background: radial-gradient(circle at center, #2a0a4a, #0b0b1a);
+
   background-size: cover;
+}
+
+.nav-account-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 12px;
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+
+  text-decoration: none;
+  color: white;
+}
+
+/* ICON */
+.nav-icon {
+  width: 32px;
+  height: 32px;
+}
+
+/* STACK TEXT */
+.nav-user-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  font-size: 0.85rem;
+}
+
+.nav-user-meta span:first-child {
+  font-weight: 600;
+}
+
+.nav-user-meta span:last-child {
+  font-size: 0.75rem;
+  color: #ffd700;
+}
+
+.glass-navbar {
+  background: rgba(20, 20, 40, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+
+  box-shadow: 
+    0 8px 30px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+
+  transition: all 0.3s ease;
+}
+
+.glass-navbar:hover {
+  box-shadow: 
+    0 10px 40px rgba(0,0,0,0.7),
+    0 0 20px rgba(0, 255, 200, 0.15);
+}
+
+.nav-search-input {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+}
+
+.nav-search-input::placeholder {
+  color: #ccc;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.8) !important;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: #00ffcc !important;
+}
+
+.nav-link.active {
+  color: #00ffcc !important;
+  font-weight: 600;
+}
+
+
+
+@media (max-width: 991.98px) {
+  .navbar-logo {
+    width: 76px !important;
+    max-height: 56px !important;
+  }
+
+  .nav-search {
+    width: 100%;
+    margin: 0.55rem 0 0.3rem;
+  }
+
+  .nav-search-input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .nav-actions {
+    width: 100%;
+    margin-top: 0.2rem;
+  }
+
+  .nav-account-chip {
+    margin: 0.3rem 0;
+  }
 }
 
 /* loader */

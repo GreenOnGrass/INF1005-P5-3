@@ -129,6 +129,9 @@ error_reporting(E_ALL & ~E_DEPRECATED);
                                 <?php } else { ?>
                                     <p class='text-danger'>Error fetching user details: <?php echo $errorMsg; ?></p>
                                 <?php } ?>
+                                <div class="signout-btn-container mt-4 text-center">
+                                    <a href="signout_process.php" class="btn btn-outline-danger">Sign Out</a>
+                                </div>  
                             </div>
                         </div>
                     </div>
