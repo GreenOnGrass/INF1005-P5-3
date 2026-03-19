@@ -1,8 +1,0 @@
-{
-    "require": {
-        "tcgdex/sdk": "^2.2",
-        "symfony/cache": "^8.0",
-        "nyholm/psr7": "^1.8",
-        "kriswallsmith/buzz": "^1.3"
-    }
-}
