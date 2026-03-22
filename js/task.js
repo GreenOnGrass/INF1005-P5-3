@@ -1,39 +1,66 @@
-let hasCopiedLink = false; // Internal flag to track if the user has copied the link
-let hasVisitedShop = localStorage.getItem('visitedShopToday') === 'true'; // Check if the user has visited the shop today
-// let hasLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Check if the user has logged in today
+const shopKey = `visitedShop_user_${CURRENT_USER_ID}`;
+const copyKey = `hasCopiedLink_user_${CURRENT_USER_ID}`;
 
 function copyAndVerify() {
     const copyText = document.getElementById("shareUrl");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
 
-    navigator.clipboard.writeText(copyText.value).then(() => {
-        // Show the feedback text
-        document.getElementById("copyFeedback").style.display = "block";
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            handleCopySuccess();
+        } else {
+            alert("Copy failed. Please manually select and copy the link.");
+        }
+    } catch (err) {
+        console.error('Fallback copy method failed:', err);
+    }
+}
 
-        // Set our internal flag to true
-        hasCopiedLink = true;
+function handleCopySuccess() {
+    const feedback = document.getElementById("copyFeedback");
+    if (feedback) feedback.style.display = "block";
 
-        // Visual feedback on the claim button
-        const claimBtn = document.getElementById("btn-share-claim");
-        claimBtn.classList.replace('btn-success', 'btn-warning');
+    const today = new Date().toISOString().split('T')[0];
+    const data = JSON.stringify({ status: 'true', date: today });
 
-        console.log("Link copied. Task can now be claimed.");
-    }).catch(err => {
-        console.error('Failed to copy: ', err);
-    });
+    // Use the unique copyKey defined at the top of your file
+    sessionStorage.setItem(copyKey, data);
+
+    const claimBtn = document.getElementById("btn-share-claim");
+    if (claimBtn) claimBtn.classList.replace('btn-success', 'btn-warning');
 }
 
 function claimTask(taskId) {
-    const btn = event.target;
+    const btn = event.currentTarget || event.target;
+    const today = new Date().toISOString().split('T')[0];
+    const gameKey = `play_game_user_${CURRENT_USER_ID}`;
 
-    // Logic Gate for Visit Shop
-    if (taskId === 'visit_shop' && localStorage.getItem('visitedShopToday') !== 'true') {
-        alert("You must visit the shop page first!");
+    const isTaskValid = (key) => {
+        const rawData = sessionStorage.getItem(key);
+        if (!rawData) return false;
+        try {
+            const data = JSON.parse(rawData);
+            return data.status === 'true' && data.date === today;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    if (taskId === 'visit_shop' && !isTaskValid(shopKey)) {
+        alert("Your shop visit from yesterday expired. Please visit the shop again today!");
         return;
     }
 
-    // Logic Gate for Spread Social
-    if (taskId === 'share_social' && !hasCopiedLink) {
-        alert("Please copy the URL first!");
+    if (taskId === 'share_social' && !isTaskValid(copyKey)) {
+        alert("Please copy the URL again today!");
+        return;
+    }
+
+    if (taskId === 'play_game' && !isTaskValid(gameKey)) {
+        alert("You haven't finished the game today! Redirecting you now...");
+        window.location.href = "game.php";
         return;
     }
 
@@ -42,29 +69,16 @@ function claimTask(taskId) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `task_id=${taskId}`
     })
-    .then(response => response.json()) // Works because of the JSON header in PHP
-    .then(data => {
-        if (data.success) {
-            btn.innerText = "Claimed!";
-            btn.disabled = true;
-            btn.classList.replace('btn-success', 'btn-secondary');
-            alert(`Success! You earned ${data.new_points} points.`);
-        } else {
-            alert("Error: " + data.message);
-        }
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                btn.innerText = "Claimed!";
+                btn.disabled = true;
+                btn.classList.replace('btn-success', 'btn-secondary');
+                btn.classList.replace('btn-warning', 'btn-secondary');
+                alert(`Success! You earned ${data.new_points} points.`);
+            } else {
+                alert("Error: " + data.message);
+            }
+        });
 }
-
-// Add this script to the login page to set the login flag when the user logs in successfully
-{/* <script>
-    // Since this page is only accessible if logged in, set the flag automatically
-    sessionStorage.setItem('isLoggedIn', 'true');
-    console.log("Login verified for daily task.");
-</script> */}
-
-// Add this script to the shop page to set the visited shop flag when the user visits
-{/* <script>
-    // Set the flag in the browser's memory
-    localStorage.setItem('visitedShopToday', 'true');
-    console.log("Shop visit verified for daily task.");
-</script> */}

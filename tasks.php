@@ -2,17 +2,15 @@
 session_start();
 include 'inc/db_connect.php';
 
-// Check if the user is logged in
 $isIn = isset($_SESSION['user_id']);
 
 if (!$isIn) {
-    // Redirect to login if they try to access tasks while logged out
     header("Location: signin.php");
     exit();
 }
 
-$userId = $_SESSION['user_id']; // Use the real ID from session
-$userName = $_SESSION['username']; // Use the real name from session
+$userId = $_SESSION['user_id'];
+$userName = $_SESSION['username'];
 
 
 try {
@@ -100,11 +98,18 @@ try {
                             <?php endif; ?>
                         </button>
                     </div>
-
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="mb-1">Play a game</h5>
                             <p class="mb-1">Complete a mini-game on the site.</p>
+
+                            <?php if (!in_array('play_game', $completedToday)): ?>
+                                <a href="game.php" class="btn btn-sm btn-outline-info mb-2">
+                                    <i class="fa-solid fa-gamepad"></i> Go to Game
+                                </a>
+                                <br>
+                            <?php endif; ?>
+
                             <small class="text-muted">+25 points</small>
                         </div>
                         <button class="btn <?php echo in_array('play_game', $completedToday) ? 'btn-secondary' : 'btn-success'; ?>"
@@ -136,6 +141,10 @@ try {
             </div>
         </div>
     </div>
+
+    <script>
+        const CURRENT_USER_ID = "<?php echo $userId; ?>";
+    </script>
 
     <script src="js/task.js"></script>
 
