@@ -15,20 +15,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $conn = DBConnect::connect();
 
-        $stmt = $conn->prepare("SELECT password FROM User WHERE user_id = ?");
+        $stmt = $conn->prepare("SELECT password_hash FROM User WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        if (!$user || !password_verify($password, $user['password'])) {
+        if (!$user || !password_verify($password, $user['password_hash'])) {
             $_SESSION['update_error'] = "Incorrect password. Please try again.";
             header("Location: account_settings.php");
             exit();
         }
 
         $stmt = $conn->prepare("SELECT user_id FROM User WHERE (username = ?) AND user_id != ?");
-        $stmt->bind_param("ssi", $new_username, $user_id);
+        $stmt->bind_param("si", $new_username, $user_id);
         $stmt->execute();
         if ($stmt->get_result()->num_rows > 0) {
             $_SESSION['update_error'] = "Username is already in use by another account.";
@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        $stmt = $conn->prepare("UPDATE User SET username = ?WHERE user_id = ?");
-        $stmt->bind_param("ssi", $new_username, $user_id);
+        $stmt = $conn->prepare("UPDATE User SET username = ? WHERE user_id = ?");
+        $stmt->bind_param("si", $new_username, $user_id);
 
         if ($stmt->execute()) {
             $_SESSION['update_success'] = "Your account details have been updated successfully.";

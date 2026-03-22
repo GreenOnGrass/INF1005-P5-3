@@ -78,8 +78,7 @@ try {
                             <hr class="my-4">
 
                             <div class="text-center">
-                                <h2 class="h4 mb-3">Delete Account</h2>
-                                <p class="text-muted">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                                <p class="text-center">Permanently delete your account and all associated data. This action cannot be undone.</p>
                                 <a href="account_delete.php" class="btn btn-danger">Delete My Account</a>
                             </div>
                         <?php endif; ?>
