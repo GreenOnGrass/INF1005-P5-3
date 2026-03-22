@@ -104,15 +104,13 @@ error_reporting(E_ALL & ~E_DEPRECATED);
                                     <h5 class='card-title'>Username: <span class='text-primary'> <?php echo $username; ?></span></h5>
                                     <p class='card-text'>Email: <span class='text-primary'><?php echo $email; ?></span></p>
                                     <p class='card-text'>Points: <span class='text-primary'><?php echo $points; ?></span></p>
-
+                                    <div class="btn-container mt-4 text-center">
+                                        <a href="signout_process.php" class="btn btn-outline-danger ms-2">Sign Out</a>
+                                        <a href="account_settings.php" class="btn btn-outline-light ms-2">Account Settings</a>
+                                    </div>
                                 <?php } else { ?>
-                                    <p class='text-danger'>Error fetching user details: <?php echo $errorMsg; ?></p>
+                                    <p class='text-danger text-center'>Error fetching user details: <?php echo $errorMsg; ?></p>
                                 <?php } ?>
-                                <div class="btn-container mt-4 text-center">
-                                    <a href="signout_process.php" class="btn btn-outline-danger ms-2">Sign Out</a>
-                                    <a href="account_settings.php" class="btn btn-outline-light ms-2">Account Settings</a>
-                                    <a href="account_delete.php" class="btn btn-outline-danger ms-2">Delete Account</a>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -19,14 +19,14 @@ $conn = null;
 try {
     $conn = DBConnect::connect();
 
-    $stmt = $conn->prepare("SELECT password FROM User WHERE user_id = ?");
+    $stmt = $conn->prepare("SELECT password_hash FROM User WHERE user_id = ?");
     if (!$stmt) throw new Exception($conn->error);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
 
-    if (!$user || !password_verify($password, $user['password'])) {
+    if (!$user || !password_verify($password, $user['password_hash'])) {
         $_SESSION['delete_error'] = "Incorrect password. Account not deleted.";
         header("Location: account_delete.php");
         exit();
