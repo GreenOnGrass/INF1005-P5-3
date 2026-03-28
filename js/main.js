@@ -56,3 +56,24 @@ function allFlipped() {
         }, 50);
     }
 }
+
+function indexReroll() {
+    if (!confirm("Spend 15 points to reroll a new deck?")) return;
+
+    fetch('index_reroll.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); 
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(err => {
+        console.error("Repull error:", err);
+        alert("An error occurred while repulling cards.");
+    });
+}
