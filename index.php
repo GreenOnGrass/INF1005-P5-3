@@ -1,7 +1,10 @@
 <!-- tcg -->
 <?php
 session_start();
-$isIn = isset($_SESSION['user_id']);
+
+$userId = $_SESSION['user_id'] ?? 'guest'; 
+$sessionKey = "user" . $userId;
+
 
 // adjust based on your directory
 require_once __DIR__ . '/vendor/autoload.php';
@@ -13,7 +16,7 @@ use TCGdex\TCGdex;
 
 $tcgdex = new TCGdex("en");
 
-if (!isset($_SESSION['indexDisplay'])) {
+if (!isset($_SESSION[$sessionKey])) {
     $indexCards = $tcgdex->card->list();
     $indexRandom = array_rand($indexCards, 5);
     $indexDisplay = [];
@@ -27,10 +30,11 @@ if (!isset($_SESSION['indexDisplay'])) {
             'flipped' => false
         ];
     }
-    $_SESSION['indexDisplay'] = $indexDisplay;
+    $_SESSION[$sessionKey] = $indexDisplay;
 }
 
-$indexDisplay = $_SESSION['indexDisplay'];
+$indexDisplay = $_SESSION[$sessionKey];
+$isIn = isset($_SESSION['user_id']);
 ?>
 
 <!DOCTYPE html>
