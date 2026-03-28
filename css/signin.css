@@ -25,12 +25,19 @@ body {
   top: 16px;
   left: 16px;
   z-index: 1000;
-  border-width: 2px;
+  display: inline-block;
+  padding: 8px 14px;
+  border: 2px solid #2a0a4a;
+  border-radius: 999px;
+  color: #2a0a4a;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
   text-decoration: none;
 }
 
 .back-home-btn:hover {
-  color: #2a0a4a;
+  color: #ffffff;
+  background-color: #2a0a4a;
 }
 
 .form-signin {
