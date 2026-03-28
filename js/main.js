@@ -35,7 +35,16 @@ function indexFlip(card, index) {
             method: 'POST',
             body: JSON.stringify({ index: index }),
             headers: { 'Content-Type': 'application/json' }
-        });
+        }) .then(res => res.json())
+        .then(data => {
+            if (data.success && data.newPoints !== undefined) {
+                const pointsDisplay = document.querySelector('.nav-user-meta span:last-child');
+                if (pointsDisplay) {
+                    pointsDisplay.innerHTML = `⭐ ${Number(data.newPoints).toLocaleString()} pts`;
+                }
+            }
+        })
+        .catch(err => console.error("Error updating points:", err));;
 
         allFlipped();
     }
