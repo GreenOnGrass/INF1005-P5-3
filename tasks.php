@@ -129,7 +129,7 @@ include 'inc/head.inc.php'; ?>
         const CURRENT_USER_ID = "<?php echo $userId; ?>";
     </script>
 
-    <script src="js/tasks.js"></script>
+    <script src="js/task.js"></script>
 
 </body>
 
