@@ -1,5 +1,9 @@
 
-
+.container {
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: white;
+}
 .about-section {
     background: transparent;
 }
@@ -78,6 +82,7 @@
     color: white;
     text-decoration: none;
     transition: 0.3s;
+    margin-bottom: 20px;
 }
 
 .cta-btn:hover {

@@ -24,6 +24,36 @@ function isValidPassword($password)
         && preg_match('/[a-z]/', $password);
 }
 
+function saveGuestFlippedCards($db, $userId)
+{
+    $indexDisplay = $_SESSION['indexDisplay'] ?? [];
+
+    if (!is_array($indexDisplay) || empty($indexDisplay)) {
+        return;
+    }
+
+    $insertCardStmt = $db->prepare('INSERT INTO User_Inventory (user_id, card_id, quality_value) VALUES (?, ?, ?)');
+    if (!$insertCardStmt) {
+        return;
+    }
+
+    foreach ($indexDisplay as $card) {
+        $isFlipped = isset($card['flipped']) && $card['flipped'] === true;
+        $cardId = $card['id'] ?? null;
+
+        if (!$isFlipped || !is_string($cardId) || $cardId === '') {
+            continue;
+        }
+
+        // Keep quality value format consistent with cards received from purchases.
+        $qualityValue = mt_rand(0, 1000000000000000) / 1000000000000000;
+        $insertCardStmt->bind_param('isd', $userId, $cardId, $qualityValue);
+        $insertCardStmt->execute();
+    }
+
+    $insertCardStmt->close();
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: signup.php');
     exit();
@@ -76,6 +106,11 @@ try {
 
     $newUserId = $insertStmt->insert_id;
     $insertStmt->close();
+
+    saveGuestFlippedCards($db, $newUserId);
+
+    // Force a fresh index card set after registration.
+    unset($_SESSION['indexDisplay']);
 
     $_SESSION['user_id'] = $newUserId;
     $_SESSION['username'] = $username;
